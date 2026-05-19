@@ -1339,8 +1339,8 @@ const METRIC_CATEGORIES = [
     metrics: [
       {
         name: 'Lines of code',
-        desc: 'Raw code volume per engineer. A coarse activity signal — useful only as a denominator for quality ratios (bugs / 100 LOC), never as a standalone target.',
-        unit: 'LOC / dev / day', source: 'Git', status: 'planned', linkedDays: [10],
+        desc: 'Annual code volume per engineer. Famously tracked inside Google, Meta, Amazon and most top-tech orgs as a perf-review datapoint — engineers there routinely cite their year-in-LOC. Noisy alone and gameable, but at scale it correlates with seniority and output well enough that it stays on every dashboard despite the well-known critiques.',
+        unit: 'LOC / dev / year', source: 'Git', status: 'planned', linkedDays: [10],
       },
       {
         name: 'PRs raised',
