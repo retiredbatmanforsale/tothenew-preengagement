@@ -1344,27 +1344,27 @@ const METRIC_CATEGORIES = [
       },
       {
         name: 'PRs raised',
-        desc: 'How many pull requests each engineer opens weekly. Tracks shipping cadence without rewarding monolithic commits; watch for sudden spikes that mean AI-generated noise, not thoughtful change.',
+        desc: 'Weekly PRs opened per engineer. A standard delivery-velocity readout at top-tech orgs and the first metric DevEx teams cite when defending tooling investments. Post-training, the trend curve matters more than the absolute number — sudden spikes often mean AI-generated noise more than thoughtful change.',
         unit: 'PRs / dev / week', source: 'Git host', status: 'planned', linkedDays: [10],
       },
       {
         name: 'CLs reviewed',
-        desc: 'Review volume per engineer. AI-assisted review is one of the highest-leverage productivity gains — this metric surfaces whether the team’s review bottleneck actually loosened post-training.',
+        desc: 'Weekly code-reviews completed per engineer. Standard at Google and Meta, where CL-review velocity is itself a perf-review datapoint — especially for senior engineers expected to carry review load. AI-assisted review is one of the highest-leverage productivity gains the curriculum can deliver, and this is where it shows up.',
         unit: 'reviews / dev / week', source: 'Git host', status: 'planned', linkedDays: [7],
       },
       {
         name: 'Design docs reviewed',
-        desc: 'Design documents reviewed per engineer per month. Senior time-back doesn’t show up in commit graphs; this captures hours saved at the architecture and review layer.',
+        desc: 'Design documents reviewed per engineer per month. Tracked at Google and Amazon as part of senior-engineer scope and L+ promotion criteria. AI-assisted reading compresses hours of doc-review work that never shows up in commit graphs — this is where staff+ engineers get their time back.',
         unit: 'docs / dev / month', source: 'Docs platform', status: 'stub', linkedDays: [],
       },
       {
         name: 'JIRA tickets closed',
-        desc: 'The delivery throughput your managers already trust. Use it as the comparison anchor — flat tickets while LOC and PRs rise signals scope inflation, not real productivity.',
+        desc: 'Tickets closed per engineer per sprint — the throughput number your delivery managers already track and trust. Use it as the comparison anchor for everything else on the dashboard. Flat tickets while LOC and PRs rise signals scope inflation, not real productivity.',
         unit: 'tickets / dev / sprint', source: 'JIRA', status: 'planned', linkedDays: [10],
       },
       {
         name: 'Time spent coding',
-        desc: 'Hours an engineer types vs. hours supervising AI output. The most direct "is AI doing the work?" signal; growing agent share with stable quality is the engagement’s clearest win.',
+        desc: 'Engineer-hours typing vs. hours supervising agent output. GitHub and Cursor both report this for enterprise customers — the cleanest direct signal of whether AI is actually doing the work. Growing agent share with stable quality is the engagement’s clearest evidence the training paid back.',
         unit: 'hrs · agent vs user', source: 'IDE telemetry', status: 'stub', linkedDays: [4, 5],
       },
     ],
@@ -1376,32 +1376,32 @@ const METRIC_CATEGORIES = [
     metrics: [
       {
         name: 'SWE hours saved',
-        desc: 'Estimated engineering hours saved by AI assistance, rolled across the org. The headline ROI number — must be triangulated from self-report and telemetry, since either alone is unreliable.',
+        desc: 'Estimated engineering hours saved by AI assistance, rolled to the org. The headline ROI number every CTO presentation cites — GitHub’s enterprise studies and McKinsey’s developer-productivity reports use the same framing. Triangulate self-report against telemetry, since either alone tends to overstate.',
         unit: 'hrs / dev / week', source: 'Survey + telemetry', status: 'planned', linkedDays: [10],
       },
       {
         name: 'Ticket cycle time',
-        desc: 'Median time from ticket open to PR merge. The single most defensible productivity metric — independently auditable, hard to game, and what your customers actually feel.',
+        desc: 'Median time from ticket open to PR merge. One of the four DORA metrics — the most defensible productivity number in industry, because it’s independently auditable, hard to game, and reflects what customers actually feel. Pre/post training delta here is the engagement’s strongest ROI claim.',
         unit: 'open → merge, p50', source: 'JIRA + Git', status: 'planned', linkedDays: [10],
       },
       {
         name: 'Features shipped',
-        desc: 'User-facing features delivered per sprint. Connects engineering velocity to business outcomes; separates "doing more work" from "delivering more value."',
+        desc: 'User-facing features delivered per sprint. The standard product-engineering throughput readout — where engineering velocity meets business outcomes. Useful as a top-of-funnel check: if features-shipped rises while the quality category below stays healthy, the productivity gain is real, not borrowed.',
         unit: 'features / sprint', source: 'JIRA', status: 'planned', linkedDays: [8, 10],
       },
       {
         name: 'Brownfield velocity',
-        desc: 'Modifications-to-existing-systems completed per week. Most TTN work is brownfield — if this doesn’t move, the training failed to address the daily workflow that pays the bills.',
+        desc: 'Modifications to existing systems completed per week (vs. greenfield work). Most production engineering is brownfield — services-consulting orgs like TTN even more so. If this doesn’t move post-training, the training failed to address the workflow that actually pays the bills.',
         unit: 'modify-tasks / week', source: 'Git host', status: 'stub', linkedDays: [6],
       },
       {
         name: 'Plan-first ratio',
-        desc: 'Share of agentic coding sessions that began with an explicit plan. Planning predicts session success more than any other variable; this metric tracks whether Day 5’s discipline stuck.',
+        desc: 'Share of agentic coding sessions that began with an explicit plan. Across the published agent-reliability literature (Anthropic, Cognition and others), planning before execution is the single biggest predictor of session success. This metric tracks whether Day 5’s discipline actually stuck across the cohort.',
         unit: '% sessions with plan', source: 'Claude Code logs', status: 'stub', linkedDays: [5],
       },
       {
         name: 'Tasks per Cursor session',
-        desc: 'Distinct tasks completed within one Cursor session. A depth-of-use signal — rising sessions but flat tasks-per-session means poor context hygiene; both rising means real fluency.',
+        desc: 'Distinct tasks completed within one Cursor session. Cursor’s enterprise admin surface reports this natively. Rising sessions but flat tasks-per-session means poor context hygiene (engineers restarting too often); both rising means real fluency. Watch the ratio, not either number alone.',
         unit: 'tasks / session', source: 'Cursor telemetry', status: 'stub', linkedDays: [3],
       },
     ],
@@ -1413,32 +1413,32 @@ const METRIC_CATEGORIES = [
     metrics: [
       {
         name: 'Cursor DAU',
-        desc: 'Engineers active in Cursor each day. The basic "did adoption happen?" signal — below 60% of trained engineers at week 2 means the training didn’t stick and the rest of the dashboard won’t move.',
+        desc: 'Engineers active in Cursor each day. The standard SaaS-adoption readout — every internal-tools team tracks DAU/WAU for tools they’re rolling out. Industry benchmarks: below ~60% of trained engineers at week 2 typically means the training didn’t stick, and the rest of the dashboard won’t move.',
         unit: 'daily active users', source: 'Cursor admin', status: 'planned', linkedDays: [1, 3],
       },
       {
         name: 'Claude Code DAU',
-        desc: 'Engineers active in Claude Code each day. Harder adoption curve than Cursor, but higher-value — agentic users are the productivity multipliers driving the headline numbers above.',
+        desc: 'Engineers active in Claude Code each day. Higher activation friction than Cursor (different surface, agentic mental model), but agentic users are the productivity multipliers driving the throughput numbers above. Watch the Claude/Cursor DAU ratio — that’s the leading indicator of how deep the training landed.',
         unit: 'daily active users', source: 'Claude admin', status: 'planned', linkedDays: [1, 4],
       },
       {
         name: 'Token consumption / user',
-        desc: 'Tokens consumed per engineer per week across Anthropic APIs. A depth-of-use signal that also costs money; runaway growth often flags bad context hygiene more than heavy productive use.',
+        desc: 'Tokens consumed per engineer per week across Anthropic APIs. Anthropic’s admin surface reports this natively — both a depth-of-use signal and the cost line item finance will eventually ask about. Runaway growth usually means bad context hygiene, not heavy productive use.',
         unit: 'tokens / dev / week', source: 'Anthropic billing', status: 'planned', linkedDays: [4, 5],
       },
       {
         name: 'CLAUDE.md coverage',
-        desc: 'Share of active repos with a maintained CLAUDE.md file. The single best leading indicator of durable productivity — repos without one quietly regress to chat-paste habits within weeks.',
+        desc: 'Share of active repos with a maintained CLAUDE.md file. Configuration-as-code for the AI tool — Anthropic, Cursor (.cursorrules), and GitHub Copilot (.github/copilot-instructions.md) have all converged on this pattern. Coverage here is the cleanest leading indicator that productivity gains will persist past the workshop.',
         unit: '% repos with CLAUDE.md', source: 'Git host scan', status: 'planned', linkedDays: [2, 9],
       },
       {
         name: 'Custom command usage',
-        desc: 'Invocations of team-defined custom commands per engineer. Engineers bending the tool to their workflow rather than vice versa — compounding leverage that grows over months.',
+        desc: 'Invocations of team-defined custom commands (Claude Code slash commands, Cursor command-palette entries). Teams that author custom commands consistently extract more value from the tool over time — engineers bending the tool to their workflow rather than the other way round. Compounding leverage.',
         unit: 'invocations / dev / week', source: 'Claude Code logs', status: 'stub', linkedDays: [9],
       },
       {
         name: 'MCP server usage',
-        desc: 'Calls to internal MCP servers (issue tracker, deploy tools, internal data). The leading edge of "AI as integrated teammate" rather than "AI as chat window" — predicts the next six months of gains.',
+        desc: 'Calls to internal MCP servers (issue trackers, deploy tools, internal data sources). MCP is now an open protocol adopted across Anthropic, Cursor, OpenAI and others — usage here is the leading edge of AI-as-integrated-teammate (rather than AI-as-chat-window), and a strong predictor of the next six months of productivity gains.',
         unit: 'calls / dev / week', source: 'MCP logs', status: 'stub', linkedDays: [9],
       },
     ],
@@ -1450,32 +1450,32 @@ const METRIC_CATEGORIES = [
     metrics: [
       {
         name: 'PR rework rate',
-        desc: 'Share of PRs requiring more than two review cycles before merge. The honest counterweight to PR throughput — if both rise, AI is generating code faster than the team can review it well.',
+        desc: 'Share of PRs that required more than two review cycles before merge. GitHub’s enterprise analytics and GitLab’s DevSecOps reports both publish on this — the honest counterweight to PR throughput. If rework climbs alongside PRs raised, AI is generating code faster than the team can review it well.',
         unit: '% PRs >2 review cycles', source: 'Git host', status: 'planned', linkedDays: [7],
       },
       {
         name: 'Post-merge bug rate',
-        desc: 'Bugs filed within 30 days of merge per 100 PRs shipped. The most painful but most truthful quality metric — catches fast-shipping code that breaks later, which is the canonical AI-assist failure mode.',
+        desc: 'Bugs filed within 30 days of merge per 100 PRs shipped. Closely related to DORA’s change-failure rate — the most painful but most truthful quality metric, because it catches fast-shipping code that breaks later. Late-breaking failure is the canonical AI-assist failure mode.',
         unit: 'bugs / 100 PRs', source: 'JIRA + Git', status: 'planned', linkedDays: [7],
       },
       {
         name: 'AI-touch ratio on bugs',
-        desc: 'Share of bug-causing commits that were AI-assisted vs. fully human-authored. Directly answers "is AI making us worse?" — requires AI-touch annotation in commits (an open instrumentation TODO).',
+        desc: 'Share of bug-causing commits that were AI-assisted vs. fully human-authored. The clearest answer to whether AI assistance is making the codebase worse — a question this room will eventually ask. Requires AI-touch annotation on commits, which is the open instrumentation TODO that gates this metric.',
         unit: '% AI-touched / bugs', source: 'Git annotations', status: 'todo', linkedDays: [7],
       },
       {
         name: 'Test coverage on AI code',
-        desc: 'Coverage delta on lines added by AI-assisted commits. AI tends to skip tests unless asked — falling coverage with rising LOC means untested code is shipping under the radar.',
+        desc: 'Coverage delta on lines added by AI-assisted commits vs. baseline. Published reliability studies consistently show AI skips tests unless prompted. Falling coverage with rising LOC means untested code is shipping under the radar — the slow-burn version of post-merge bugs.',
         unit: '% covered', source: 'CI coverage', status: 'stub', linkedDays: [7],
       },
       {
         name: 'Hallucination incident reports',
-        desc: 'Engineer-reported instances of AI producing confidently-wrong code or invoking nonexistent APIs. Builds organizational memory for where AI fails most — refines the curriculum, never the basis for blame.',
+        desc: 'Engineer-reported instances of AI producing confidently-wrong code or invoking nonexistent APIs. Treat this like an on-call incident retro stream — blameless by construction. Builds organizational memory of where AI fails most often, which feeds back into curriculum updates and tool configuration.',
         unit: 'self-reported / week', source: 'Slack form', status: 'stub', linkedDays: [6],
       },
       {
         name: 'Context-grounded prompt ratio',
-        desc: 'Share of prompts where the engineer attached relevant files vs. used naked text. The cleanest measure of whether Day 2 (context engineering) actually stuck — low ratios mean wasted tokens and worse outputs.',
+        desc: 'Share of prompts where the engineer attached relevant files vs. sent naked text. Cursor and Claude Code both expose this in their telemetry. The cleanest measure of whether Day 2 (context engineering) actually stuck — low ratios mean wasted tokens, worse outputs, and a quiet revert to chat-paste habits.',
         unit: '% prompts w/ files attached', source: 'IDE telemetry', status: 'stub', linkedDays: [2],
       },
     ],
