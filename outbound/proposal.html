@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>[Client] · AI Engineering Engagement — Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@page { size: Letter; margin: 0.5in 0.55in; }
+
+:root {
+  --paper: #f4efe5;
+  --paper-warm: #ece4d3;
+  --ink: #1a1614;
+  --ink-mid: #4a3f37;
+  --ink-soft: #6e6055;
+  --ink-light: #8b7e6f;
+  --rule: rgba(26, 22, 20, 0.18);
+  --rule-strong: rgba(26, 22, 20, 0.38);
+  --vermilion: #b8401f;
+  --vermilion-deep: #8a2e10;
+  --vermilion-pale: rgba(184, 64, 31, 0.08);
+  --forest: #2f4d2d;
+  --forest-deep: #1f3a1d;
+  --forest-pale: rgba(47, 77, 45, 0.09);
+  --display: 'Instrument Serif', Georgia, serif;
+  --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); }
+body {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 1.4;
+  color: var(--ink);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── Masthead ───────────────────────────────────────────────── */
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 0.5pt solid var(--rule);
+  padding-bottom: 10pt;
+  margin-bottom: 28pt;
+}
+.mark {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 14pt;
+  color: var(--ink);
+}
+.mark::before {
+  content: '§ ';
+  font-style: normal;
+  color: var(--vermilion);
+  font-weight: 500;
+}
+.masthead .meta {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  display: flex;
+  gap: 18pt;
+}
+.masthead .meta b { color: var(--ink); font-weight: 500; }
+
+/* ── Title block ────────────────────────────────────────────── */
+.title-block { margin-bottom: 22pt; }
+.kicker {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 12pt;
+}
+.kicker .dot {
+  display: inline-block;
+  width: 5pt; height: 5pt;
+  background: var(--vermilion);
+  border-radius: 50%;
+  margin-right: 8pt;
+  vertical-align: 1pt;
+}
+h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 28pt;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  margin-bottom: 10pt;
+  color: var(--ink);
+}
+h1 em { font-style: italic; color: var(--vermilion); }
+.lede {
+  font-size: 10.5pt;
+  line-height: 1.5;
+  color: var(--ink-mid);
+  max-width: 38em;
+}
+
+/* ── Sections ───────────────────────────────────────────────── */
+section { margin-bottom: 13pt; }
+.section-h {
+  display: grid;
+  grid-template-columns: 72pt 1fr;
+  gap: 14pt;
+  border-top: 0.5pt solid var(--rule);
+  padding-top: 7pt;
+  margin-bottom: 8pt;
+  align-items: baseline;
+}
+.section-h .num {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+.section-h h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 15pt;
+  line-height: 1.05;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+.section-h h2 em { font-style: italic; color: var(--vermilion); }
+
+p { margin-bottom: 6pt; max-width: 42em; }
+p.last { margin-bottom: 0; }
+
+/* ── Two-dimension cards ────────────────────────────────────── */
+.dim-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12pt;
+  margin: 10pt 0 4pt;
+}
+.dim {
+  border: 0.6pt solid var(--rule-strong);
+  padding: 11pt 12pt 12pt;
+  position: relative;
+}
+.dim::before {
+  content: attr(data-id);
+  position: absolute;
+  top: -5pt;
+  left: 10pt;
+  background: var(--paper);
+  padding: 0 6pt;
+  font-family: var(--mono);
+  font-size: 7pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.dim.d1 { border-color: var(--vermilion); background: var(--vermilion-pale); }
+.dim.d1::before { color: var(--vermilion); }
+.dim.d2 { border-color: var(--forest); background: var(--forest-pale); }
+.dim.d2::before { color: var(--forest); }
+.dim h3 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14pt;
+  line-height: 1.1;
+  margin-bottom: 4pt;
+  color: var(--ink);
+}
+.dim p { font-size: 9pt; margin-bottom: 0; color: var(--ink-mid); }
+.dim .who {
+  margin-top: 8pt;
+  padding-top: 8pt;
+  border-top: 0.4pt dashed var(--rule);
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ── Curriculum table ───────────────────────────────────────── */
+table.curr {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5pt;
+  margin-top: 8pt;
+}
+table.curr thead th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 7pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  font-weight: 400;
+  padding: 4pt 8pt 4pt 0;
+  border-bottom: 0.5pt solid var(--rule);
+}
+table.curr tbody td {
+  padding: 5pt 8pt 5pt 0;
+  vertical-align: top;
+  border-bottom: 0.4pt solid var(--rule);
+  font-size: 9pt;
+}
+table.curr tbody tr:last-child td { border-bottom: 0; }
+table.curr .day {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 12pt;
+  color: var(--ink);
+  line-height: 1;
+  width: 32pt;
+}
+table.curr .theme {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 10.5pt;
+  color: var(--ink);
+  line-height: 1.2;
+  width: 130pt;
+}
+table.curr .what { color: var(--ink-mid); }
+table.curr .tool {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  width: 60pt;
+  text-align: right;
+}
+.callout-mark {
+  display: inline-block;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 9pt;
+  color: var(--vermilion);
+  margin-left: 6pt;
+}
+.callout-mark.green { color: var(--forest); }
+
+/* ── Observability grid ─────────────────────────────────────── */
+.obs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10pt 18pt;
+  margin-top: 10pt;
+}
+.obs-cat {
+  border-top: 0.6pt solid var(--rule);
+  padding-top: 8pt;
+}
+.obs-cat .cat-h {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 13pt;
+  color: var(--ink);
+  margin-bottom: 4pt;
+}
+.obs-cat .cat-h.green { color: var(--forest); }
+.obs-cat p {
+  font-size: 9pt;
+  color: var(--ink-mid);
+  margin-bottom: 6pt;
+  max-width: none;
+}
+.obs-cat ul {
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 8pt;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.obs-cat ul li::before { content: '· '; color: var(--ink-light); }
+.obs-cat ul li b { color: var(--ink); font-weight: 500; font-family: var(--sans); font-size: 9pt; letter-spacing: 0; }
+
+/* ── Engagement model ───────────────────────────────────────── */
+.engage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12pt;
+  margin-top: 6pt;
+}
+.engage .col h4 {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--vermilion-deep);
+  margin-bottom: 5pt;
+  padding-bottom: 3pt;
+  border-bottom: 0.4pt solid var(--rule);
+}
+.engage .col h5 {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 10pt;
+  color: var(--ink);
+  margin: 3pt 0 1pt;
+  font-weight: 400;
+}
+.engage .col p, .engage .col li {
+  font-size: 8.5pt;
+  line-height: 1.4;
+  color: var(--ink-mid);
+}
+.engage .col ul { list-style: none; }
+.engage .col ul li { padding-left: 9pt; position: relative; margin-bottom: 2pt; }
+.engage .col ul li::before { content: '—'; position: absolute; left: 0; color: var(--ink-light); }
+
+/* ── Open questions ─────────────────────────────────────────── */
+ol.qs {
+  list-style: none;
+  counter-reset: q;
+  margin-top: 6pt;
+}
+ol.qs li {
+  counter-increment: q;
+  padding: 6pt 0 6pt 32pt;
+  border-top: 0.4pt solid var(--rule);
+  position: relative;
+  font-size: 9pt;
+  color: var(--ink);
+  max-width: 44em;
+}
+ol.qs li:last-child { border-bottom: 0.4pt solid var(--rule); }
+ol.qs li::before {
+  content: counter(q, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 6pt;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 12pt;
+  color: var(--vermilion);
+  line-height: 1;
+}
+ol.qs li small {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 8.5pt;
+  margin-top: 2pt;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.foot {
+  margin-top: 22pt;
+  padding-top: 10pt;
+  border-top: 0.5pt solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24pt;
+  align-items: end;
+}
+.foot .sig {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 11.5pt;
+  color: var(--ink);
+  line-height: 1.4;
+  max-width: 18em;
+}
+.foot .meta {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  line-height: 1.6;
+}
+.foot .meta b { color: var(--ink); font-weight: 500; }
+
+/* ── Page-break controls ────────────────────────────────────── */
+.page-break { page-break-after: always; break-after: page; }
+.dim-pair, .obs-grid, .engage { break-inside: avoid; }
+table.curr tbody tr { break-inside: avoid; }
+.section-h { break-after: avoid; }
+
+</style>
+</head>
+<body>
+
+<!-- ── Masthead ───────────────────────────────────────────── -->
+<header class="masthead">
+  <div class="mark">[Client] <em>·</em> AI Engineering Engagement</div>
+  <div class="meta">
+    <span>Doc <b>OUT-001</b></span>
+    <span>Rev <b>0.1</b></span>
+    <span>Prepared for <b>[VP Name]</b></span>
+  </div>
+</header>
+
+<!-- ── Title block ────────────────────────────────────────── -->
+<div class="title-block">
+  <div class="kicker"><span class="dot"></span>Engagement proposal · operating plan · pre-engagement draft</div>
+  <h1>Teach the org to ship with AI<em>&amp;</em> prove it moved the needle.</h1>
+  <p class="lede">
+    A two-dimensional engagement, in two coupled deliverables. The first upskills your
+    engineers on AI-powered development in 25 hands-on hours. The second is the
+    observability engine that makes the productivity gain legible to leadership in
+    numbers, every day after.
+  </p>
+</div>
+
+<!-- ── Section 1: The problem ─────────────────────────────── -->
+<section>
+  <div class="section-h">
+    <div class="num">01 · Problem</div>
+    <h2>The pressure is <em>specific</em> — and so is the gap.</h2>
+  </div>
+  <p>
+    Every engineering leader at a services firm is currently being squeezed on the same
+    question: where are the AI productivity gains, and can you prove them? Clients won't
+    accept "we're investing in it." Boards won't accept anecdote. Competitors who can
+    quantify a delivery-velocity step-change have an asymmetric story in every
+    procurement conversation.
+  </p>
+  <p>
+    The market response so far has mostly been one-off internal trainings — half-day
+    workshops, recorded webinars, a few licenses for engineers who already liked
+    tinkering. These leave no measurable trail and decay fast. What's missing isn't more
+    training; it's training that's tightly coupled to the dashboard that will be used to
+    judge whether it worked.
+  </p>
+  <p class="last">
+    This proposal is the engagement just shipped at <b>ToTheNew</b>, generalized for
+    [Client]. The shape is the same; the content adapts to your stack, cohort, and
+    client mix.
+  </p>
+</section>
+
+<!-- ── Section 2: Two dimensions ──────────────────────────── -->
+<section>
+  <div class="section-h">
+    <div class="num">02 · Approach</div>
+    <h2>Two dimensions, <em>deliberately</em> coupled.</h2>
+  </div>
+  <p>
+    Training without measurement decays. Measurement without training shows nothing.
+    The engagement runs both halves on a single timeline, so the metrics that prove the
+    training worked are the same metrics the team learns to influence.
+  </p>
+  <div class="dim-pair">
+    <div class="dim d1" data-id="Dimension 1">
+      <h3>AI Learning Curriculum</h3>
+      <p>10 days × 2.5 hours, hands-on, Claude Code + Cursor. Zero-to-hero arc designed for engineers who already use Copilot casually and need to become productive with agentic workflows on real brownfield codebases.</p>
+      <div class="who">Consumer · Engineering cohort</div>
+    </div>
+    <div class="dim d2" data-id="Dimension 2">
+      <h3>Observability &amp; Adoption Engine</h3>
+      <p>24×7 dashboard against four categories — Activity, Throughput, Adoption, Quality — that defends the training to leadership. Every metric is grounded in industry practice (DORA, GitHub/Anthropic enterprise admin telemetry).</p>
+      <div class="who">Consumer · Engineering leadership</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 3: Curriculum spine ────────────────────────── -->
+<section>
+  <div class="section-h">
+    <div class="num">03 · Dimension 1</div>
+    <h2>Curriculum spine — <em>ten</em> days to working AI-native engineers.</h2>
+  </div>
+  <p>
+    One shared spine, hands-on heavy, role-forked only where it must be (Day 8). Each
+    day = 30 min framing → 90 min lab → 30 min debrief. The arc compounds — later days
+    depend on earlier ones landing.
+  </p>
+  <table class="curr">
+    <thead>
+      <tr><th>Day</th><th>Theme</th><th>What lands</th><th style="text-align:right">Tool</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="day">01</td><td class="theme">Mental models &amp; setup</td><td class="what">Both tools running; first prompts that work; the shift from chat-paste to in-IDE.</td><td class="tool">Both</td></tr>
+      <tr><td class="day">02</td><td class="theme">Context engineering <span class="callout-mark">★ biggest unlock</span></td><td class="what">"Context first, prompt second" — file tagging, CLAUDE.md, .cursorrules in muscle memory.</td><td class="tool">Both</td></tr>
+      <tr><td class="day">03</td><td class="theme">Inline + chat workflows</td><td class="what">Cursor fluency — Tab, ⌘K, chat, composer; right tool for each task.</td><td class="tool">Cursor</td></tr>
+      <tr><td class="day">04</td><td class="theme">Agentic workflow</td><td class="what">First real agentic delivery; mental shift from "AI completes my code" to "AI executes, I supervise."</td><td class="tool">Claude Code</td></tr>
+      <tr><td class="day">05</td><td class="theme">Planning before coding</td><td class="what">A repeatable pre-flight discipline; the plan becomes the PR description.</td><td class="tool">Claude Code</td></tr>
+      <tr><td class="day">06</td><td class="theme">Brownfield: read, modify</td><td class="what">Comfort in unfamiliar code with AI as guide; catching hallucinated function calls.</td><td class="tool">Both</td></tr>
+      <tr><td class="day">07</td><td class="theme">Tests, debugging, review</td><td class="what">AI at quality surfaces without quality going down; spotting AI-code smells in five seconds.</td><td class="tool">Both</td></tr>
+      <tr><td class="day">08</td><td class="theme">Stack-forked labs</td><td class="what">Universal skills meet role patterns: FE component, BE endpoint, DevOps IaC, Data SQL/DAG.</td><td class="tool">Both</td></tr>
+      <tr><td class="day">09</td><td class="theme">Customization &amp; guardrails <span class="callout-mark green">◆ dim-1 meets dim-2</span></td><td class="what">Committed CLAUDE.md / .cursorrules / custom commands in real repos. Durability.</td><td class="tool">Both</td></tr>
+      <tr><td class="day">10</td><td class="theme">Capstone &amp; integration</td><td class="what">Shipped PR per attendee; team norms for AI-generated code; one habit each commits to.</td><td class="tool">Both</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ── Section 4: Observability ───────────────────────────── -->
+<section>
+  <div class="section-h">
+    <div class="num">04 · Dimension 2</div>
+    <h2>Observability scaffold — <em>four</em> categories, grounded in industry practice.</h2>
+  </div>
+  <p>
+    24 metrics across four categories, each instrumented from an established source
+    (Git host, JIRA, IDE telemetry, Anthropic billing). The scaffold is intentionally
+    redundant — every velocity number pairs with a quality counterweight, so leadership
+    can't be sold speed at the cost of stability.
+  </p>
+  <div class="obs-grid">
+    <div class="obs-cat">
+      <div class="cat-h">Activity</div>
+      <p>The raw volume signals. Easy to game alone; valuable as denominators for the categories below.</p>
+      <ul>
+        <li><b>LOC / dev / year</b> — the perf-review datapoint at Google, Meta, Amazon</li>
+        <li><b>PRs raised</b>, <b>CLs reviewed</b>, <b>design docs reviewed</b></li>
+        <li><b>Time spent coding</b> · agent vs user hours</li>
+      </ul>
+    </div>
+    <div class="obs-cat">
+      <div class="cat-h green">Throughput</div>
+      <p>"Did we get faster" — every line here pairs with a quality line. The DORA metrics anchor this category.</p>
+      <ul>
+        <li><b>Ticket cycle time</b> · DORA p50 — the headline metric</li>
+        <li><b>SWE hours saved</b>, <b>features shipped per sprint</b></li>
+        <li><b>Brownfield velocity</b>, <b>plan-first ratio</b></li>
+      </ul>
+    </div>
+    <div class="obs-cat">
+      <div class="cat-h">Adoption</div>
+      <p>Are tools actually being used, with the configurations that make them productive? Decay shows here first.</p>
+      <ul>
+        <li><b>Cursor DAU</b>, <b>Claude Code DAU</b></li>
+        <li><b>CLAUDE.md coverage</b> — leading indicator of durable productivity</li>
+        <li><b>Token consumption</b>, <b>custom commands</b>, <b>MCP server usage</b></li>
+      </ul>
+    </div>
+    <div class="obs-cat">
+      <div class="cat-h green">Quality</div>
+      <p>The counterweight to throughput. If speed celebrates while quality silently drops, the engagement did damage, not value.</p>
+      <ul>
+        <li><b>PR rework rate</b>, <b>post-merge bug rate</b> · DORA change-failure</li>
+        <li><b>AI-touch ratio on bugs</b> · the "is AI making us worse?" answer</li>
+        <li><b>Test coverage on AI code</b>, <b>hallucination incidents</b>, <b>context-grounded prompt ratio</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 5: Engagement model ────────────────────────── -->
+<section>
+  <div class="section-h">
+    <div class="num">05 · Model</div>
+    <h2>Engagement model — <em>timeline</em>, deliverables, your part.</h2>
+  </div>
+  <div class="engage">
+    <div class="col">
+      <h4>Timeline</h4>
+      <h5>Week 0 · Baseline</h5>
+      <p>Pre-engagement survey, license confirmation, repo access, two weeks of pre-training measurement so post-training has something to compare against.</p>
+      <h5>Weeks 1–2 · Delivery</h5>
+      <p>The 10-day curriculum, offline, 2.5 hrs/day. Real TTN-style tickets sourced from your codebase for Days 6, 8, 10.</p>
+      <h5>Weeks 3+ · Sustain</h5>
+      <p>Dashboard goes live. Bi-weekly metric review for the first quarter. Curriculum artifacts (CLAUDE.md, custom commands) maintained in your repos by your team.</p>
+    </div>
+    <div class="col">
+      <h4>Deliverables</h4>
+      <ul>
+        <li>Cohort onboarding survey + baseline report</li>
+        <li>10 days of facilitated training (in-person)</li>
+        <li>Per-attendee CLAUDE.md + .cursorrules committed to at least one of your real repos</li>
+        <li>Per-attendee shipped PR (Day 10 capstone)</li>
+        <li>Observability dashboard wired against your Git host, JIRA, IDE telemetry, Anthropic billing</li>
+        <li>Metric documentation + 1-pager for leadership</li>
+        <li>90-day post-engagement check-in</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>What [Client] provides</h4>
+      <ul>
+        <li>Cohort of engineers, blocked on calendars for the 10 days</li>
+        <li>Cursor + Claude Code licenses for the cohort — during AND for 90+ days after</li>
+        <li>Access to representative codebases for Days 6, 8, 9</li>
+        <li>Real tickets from your backlog for Days 6, 8, 10</li>
+        <li>Engineering sponsor empowered to commit CLAUDE.md to those repos</li>
+        <li>API access to Git host, JIRA, IDE admin for instrumentation</li>
+        <li>Two-week pre-engagement window for baseline measurement</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 6: Open questions ──────────────────────────── -->
+<section>
+  <div class="section-h">
+    <div class="num">06 · Open</div>
+    <h2>Open questions before we lock the plan.</h2>
+  </div>
+  <p>Decisions that, once answered, move this from a proposal into an executable engagement. None block design; all block delivery.</p>
+  <ol class="qs">
+    <li>Cohort size, composition, and split.<small>One shared track works to ~30 engineers per cohort. Above that, parallel sessions. Stack mix decides whether Day 8 forks four ways or fewer.</small></li>
+    <li>License coverage during and after.<small>If engineers fall back to free tiers after Week 2, the dashboard numbers will flatten and the engagement will look like it failed.</small></li>
+    <li>Real-problem sourcing.<small>One unfamiliar repo for Day 6, four small role-specific tasks for Day 8, one real ticket per attendee for Day 10. Toy problems lose the room.</small></li>
+    <li>Baseline measurement window.<small>Two weeks of pre-training instrumentation so the after-picture has something to compare against. Earlier the better.</small></li>
+    <li>Metric mix calibration.<small>What [Client] already tracks vs. what we'd add. The dashboard inherits your existing trust where possible; nothing duplicated.</small></li>
+  </ol>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<div class="foot">
+  <div class="sig">"The training has to teach the right skills, and the dashboard has to measure the right things — or neither dimension does its job."</div>
+  <div class="meta">
+    OUT-001 · Rev 0.1<br>
+    Prepared by <b>[Sender]</b><br>
+    Reference engagement · <b>ToTheNew</b>
+  </div>
+</div>
+
+</body>
+</html>
