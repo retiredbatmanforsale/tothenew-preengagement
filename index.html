@@ -1,0 +1,1569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ToTheNew · AI Engineering Engagement</title>
+<meta name="description" content="A two-dimensional engagement: curriculum to teach AI-powered engineering across ToTheNew, paired with an observability engine that proves productivity gains to leadership.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Tokens
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --paper: #f4efe5;
+  --paper-warm: #ece4d3;
+  --paper-deep: #e2d8c4;
+  --ink: #1a1614;
+  --ink-mid: #4a3f37;
+  --ink-soft: #6e6055;
+  --ink-light: #8b7e6f;
+  --rule: rgba(26, 22, 20, 0.12);
+  --rule-strong: rgba(26, 22, 20, 0.32);
+
+  --vermilion: #c9472e;
+  --vermilion-deep: #a23618;
+  --vermilion-pale: rgba(201, 71, 46, 0.07);
+  --vermilion-tint: rgba(201, 71, 46, 0.16);
+
+  --forest: #3d5c3a;
+  --forest-deep: #28401f;
+  --forest-pale: rgba(61, 92, 58, 0.07);
+  --forest-tint: rgba(61, 92, 58, 0.18);
+
+  --amber: #b88a3e;
+
+  --display: 'Instrument Serif', Georgia, serif;
+  --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "ss02";
+}
+body::before {
+  /* paper grain overlay */
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.08  0 0 0 0 0.05  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection { background: var(--vermilion-tint); color: var(--ink); }
+
+/* ─────────────────────────────────────────────────────────────
+   Layout primitives
+   ───────────────────────────────────────────────────────────── */
+.shell { max-width: 1320px; margin: 0 auto; padding: 0 56px; }
+@media (max-width: 900px) { .shell { padding: 0 28px; } }
+@media (max-width: 560px) { .shell { padding: 0 20px; } }
+
+.rule { height: 1px; background: var(--rule); border: 0; }
+
+/* ─────────────────────────────────────────────────────────────
+   Masthead
+   ───────────────────────────────────────────────────────────── */
+.masthead {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(244, 239, 229, 0.88);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--rule);
+}
+.masthead-inner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 18px 0 16px;
+  gap: 32px;
+}
+.mark {
+  font-family: var(--display);
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.mark .sym {
+  color: var(--vermilion);
+  font-style: normal;
+  margin-right: 8px;
+  font-weight: 500;
+}
+.mark em { font-style: italic; }
+
+.masthead .meta {
+  display: flex;
+  gap: 28px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+.masthead .meta span { display: flex; gap: 10px; align-items: baseline; }
+.masthead .meta b { color: var(--ink); font-weight: 500; }
+@media (max-width: 760px) { .masthead .meta { display: none; } }
+
+/* ─────────────────────────────────────────────────────────────
+   Hero
+   ───────────────────────────────────────────────────────────── */
+.hero { padding: 88px 0 72px; position: relative; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 56px; } }
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.kicker .pulse {
+  position: relative;
+  display: inline-block;
+  width: 7px; height: 7px;
+  background: var(--vermilion);
+  border-radius: 50%;
+}
+.kicker .pulse::after {
+  content: '';
+  position: absolute; inset: -4px;
+  border: 1px solid var(--vermilion);
+  border-radius: 50%;
+  opacity: 0;
+  animation: pulse 2.4s ease-out infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+.kicker .sep { color: var(--rule-strong); }
+
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(44px, 6.4vw, 80px);
+  line-height: 1.0;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 32px;
+}
+.hero h1 em { font-style: italic; color: var(--vermilion); }
+.hero h1 .ampersand {
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--ink-light);
+  font-size: 0.78em;
+  padding: 0 0.06em;
+}
+
+.hero .lede {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--ink-mid);
+  max-width: 32em;
+  margin-bottom: 36px;
+}
+
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  max-width: 38em;
+}
+@media (max-width: 640px) { .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+.hero-meta .stat .label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+}
+.hero-meta .stat .value {
+  font-family: var(--display);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.hero-meta .stat .unit {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-left: 4px;
+}
+
+/* Dimension cards */
+.dim-stack { display: grid; gap: 24px; }
+.dim {
+  position: relative;
+  padding: 30px 32px 32px;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper);
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+.dim::before {
+  content: attr(data-id);
+  position: absolute;
+  top: -8px; left: 24px;
+  background: var(--paper);
+  padding: 0 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.dim.dim-1 { border-color: var(--vermilion); background: linear-gradient(180deg, var(--vermilion-pale), transparent 80%); }
+.dim.dim-1::before { color: var(--vermilion); }
+.dim.dim-2 { border-color: var(--forest); background: linear-gradient(180deg, var(--forest-pale), transparent 80%); }
+.dim.dim-2::before { color: var(--forest); }
+.dim h3 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 30px;
+  margin-bottom: 12px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+.dim p { font-size: 15px; color: var(--ink-mid); line-height: 1.5; }
+.dim-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.dim-footer .consumer { color: var(--ink-soft); }
+.dim-footer .status { display: flex; align-items: center; gap: 8px; }
+.dim-1 .dim-footer .status { color: var(--vermilion-deep); }
+.dim-2 .dim-footer .status { color: var(--forest-deep); }
+.dim-footer .status::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.dim-2 .dim-footer .status::before { opacity: 0.4; }
+
+/* ─────────────────────────────────────────────────────────────
+   Tab nav
+   ───────────────────────────────────────────────────────────── */
+.nav-tabs {
+  position: sticky; top: 60px; z-index: 40;
+  background: rgba(244, 239, 229, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-tabs .shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px; padding-bottom: 12px;
+  gap: 24px;
+}
+.tabs { display: flex; gap: 2px; }
+.tab {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  padding: 10px 18px;
+  cursor: pointer;
+  color: var(--ink-light);
+  position: relative;
+  transition: color 180ms ease;
+  font-weight: 400;
+}
+.tab:hover { color: var(--ink-mid); }
+.tab.active { color: var(--ink); font-weight: 500; }
+.tab.active::after {
+  content: '';
+  position: absolute;
+  left: 18px; right: 18px;
+  bottom: -13px;
+  height: 2px;
+  background: var(--vermilion);
+  transition: background 200ms;
+}
+.tab[data-view="observability"].active::after { background: var(--forest); }
+.tab .num {
+  display: inline-block;
+  margin-right: 8px;
+  color: var(--ink-light);
+  font-weight: 400;
+}
+.tab.active .num { color: inherit; }
+
+.nav-tabs .meta-right {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.nav-tabs .meta-right b { color: var(--ink); font-weight: 500; }
+@media (max-width: 720px) { .nav-tabs .meta-right { display: none; } }
+
+/* ─────────────────────────────────────────────────────────────
+   Views
+   ───────────────────────────────────────────────────────────── */
+.view { display: none; }
+.view.active { display: block; }
+
+.section-head {
+  padding: 64px 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 64px;
+  align-items: end;
+}
+@media (max-width: 900px) { .section-head { grid-template-columns: 1fr; gap: 16px; padding: 48px 0 24px; } }
+
+.section-head .eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 12px;
+}
+.section-head h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(36px, 4.4vw, 56px);
+  line-height: 1.0;
+  letter-spacing: -0.018em;
+}
+.section-head h2 em { font-style: italic; color: var(--vermilion); }
+#view-observability .section-head h2 em { color: var(--forest); }
+.section-head .descr {
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--ink-mid);
+  max-width: 40em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Curriculum: meta strip
+   ───────────────────────────────────────────────────────────── */
+.meta-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 24px 0 12px;
+}
+.meta-strip .cell {
+  padding: 22px 0 22px 24px;
+  border-left: 1px solid var(--rule);
+}
+.meta-strip .cell:first-child { border-left: 0; padding-left: 0; }
+.meta-strip .cell .k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 6px;
+}
+.meta-strip .cell .v {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+@media (max-width: 900px) {
+  .meta-strip { grid-template-columns: repeat(2, 1fr); }
+  .meta-strip .cell { padding: 18px 0 18px 16px; border-bottom: 1px solid var(--rule); }
+  .meta-strip .cell:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .meta-strip .cell:nth-last-child(-n+2) { border-bottom: 0; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Day cards
+   ───────────────────────────────────────────────────────────── */
+.days { padding: 24px 0 64px; }
+
+.day-card {
+  border-top: 1px solid var(--rule);
+  padding: 32px 0;
+  cursor: pointer;
+  transition: padding 240ms ease;
+  position: relative;
+}
+.day-card:last-child { border-bottom: 1px solid var(--rule); }
+.day-card:hover .day-header .chev { transform: translateX(4px); color: var(--vermilion); }
+
+.day-header {
+  display: grid;
+  grid-template-columns: 132px 1fr auto;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .day-header { grid-template-columns: 1fr; gap: 14px; }
+}
+
+.day-id {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.day-id .num {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 46px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.day-id .num::before { content: 'Day '; font-size: 14px; color: var(--ink-light); font-style: normal; font-family: var(--mono); letter-spacing: 0.12em; margin-right: 4px; vertical-align: 18px; }
+
+.day-body { padding-top: 6px; }
+.day-theme {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.day-summary {
+  font-size: 16px;
+  color: var(--ink-mid);
+  line-height: 1.55;
+  max-width: 48em;
+  margin-bottom: 14px;
+}
+.day-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.tag {
+  padding: 5px 10px;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-mid);
+  background: var(--paper);
+  border-radius: 1px;
+}
+.tag.tool-cc { border-color: var(--vermilion); color: var(--vermilion-deep); background: var(--vermilion-pale); }
+.tag.tool-cursor { border-color: var(--ink-mid); color: var(--ink); background: var(--paper-warm); }
+.tag.callout {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 12.5px;
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 4px 11px 5px;
+}
+.tag.callout.green { background: var(--forest); border-color: var(--forest); }
+
+.day-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+.chev {
+  font-family: var(--display);
+  font-size: 24px;
+  line-height: 1;
+  color: var(--ink-mid);
+  transition: transform 220ms ease, color 220ms ease;
+}
+.day-card.open .chev { transform: rotate(90deg); color: var(--vermilion); }
+
+/* timeline bar */
+.tlbar {
+  display: flex;
+  width: 124px;
+  height: 6px;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper);
+}
+.tlbar > div { height: 100%; }
+.tlbar .f { flex: 30; background: repeating-linear-gradient(45deg, var(--ink-mid) 0 2px, transparent 2px 5px); }
+.tlbar .l { flex: 90; background: var(--vermilion); }
+.tlbar .d { flex: 30; background: repeating-linear-gradient(45deg, var(--ink-mid) 0 2px, transparent 2px 5px); }
+.tlbar-legend { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; color: var(--ink-light); width: 124px; display: flex; justify-content: space-between; }
+
+/* expanded detail */
+.day-detail {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 40px;
+  padding-top: 28px;
+  margin-top: 28px;
+  border-top: 1px dashed var(--rule);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 360ms ease, opacity 360ms ease, padding 360ms ease, margin 360ms ease;
+  padding-bottom: 0;
+}
+.day-card.open .day-detail { max-height: 2200px; opacity: 1; padding-bottom: 4px; }
+@media (max-width: 760px) { .day-detail { grid-template-columns: 1fr; gap: 24px; } }
+
+.detail-side {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+.detail-side .label { display: block; margin-bottom: 6px; }
+.detail-side .what {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink);
+  line-height: 1.3;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.detail-body { display: grid; gap: 28px; }
+.block { display: grid; grid-template-columns: 90px 1fr; gap: 32px; align-items: start; }
+@media (max-width: 760px) { .block { grid-template-columns: 1fr; gap: 8px; } }
+.block .b-time {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  padding-top: 3px;
+}
+.block .b-time strong { display: block; color: var(--ink); font-weight: 500; font-size: 11.5px; margin-bottom: 2px; }
+.block .b-body p {
+  font-size: 15.5px;
+  line-height: 1.62;
+  color: var(--ink-mid);
+}
+.block .b-label {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.linked-metrics {
+  margin-top: 4px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--rule);
+}
+.linked-metrics .lm-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--forest-deep);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.linked-metrics .lm-label::before {
+  content: '';
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--forest);
+  border-radius: 1px;
+}
+.lm-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.lm-chip {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  background: var(--forest-pale);
+  color: var(--forest-deep);
+  border: 1px solid var(--forest-tint);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Open questions
+   ───────────────────────────────────────────────────────────── */
+.questions {
+  margin: 24px 0 96px;
+  padding: 48px 48px 52px;
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  position: relative;
+}
+@media (max-width: 640px) { .questions { padding: 32px 24px 36px; } }
+.questions::before {
+  content: 'Open · v0.1';
+  position: absolute;
+  top: -10px; left: 32px;
+  background: var(--paper);
+  padding: 0 12px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--vermilion);
+}
+.questions h3 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 32px;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.questions .descr { font-size: 15.5px; color: var(--ink-mid); margin-bottom: 28px; max-width: 50em; }
+.q-list { display: grid; gap: 18px; }
+.q-item {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 18px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+}
+.q-item:first-child { border-top: 0; padding-top: 4px; }
+.q-num {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--vermilion);
+  line-height: 1;
+}
+.q-text { font-size: 15.5px; color: var(--ink); line-height: 1.5; }
+.q-text small { display: block; color: var(--ink-soft); font-size: 13.5px; margin-top: 2px; }
+.q-owner {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+@media (max-width: 640px) {
+  .q-item { grid-template-columns: 24px 1fr; }
+  .q-owner { grid-column: 2; margin-top: 4px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Observability view
+   ───────────────────────────────────────────────────────────── */
+.obs-status {
+  margin: 24px 0 0;
+  padding: 24px 28px;
+  background: var(--forest-pale);
+  border-left: 3px solid var(--forest);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+@media (max-width: 720px) { .obs-status { grid-template-columns: 1fr; } }
+.obs-status h4 {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--forest-deep);
+  margin-bottom: 4px;
+}
+.obs-status p {
+  font-size: 14.5px;
+  color: var(--ink-mid);
+  max-width: 56em;
+}
+.obs-phase {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--forest-deep);
+  text-align: right;
+}
+.obs-phase .phase-bar { display: flex; gap: 4px; margin-top: 4px; justify-content: flex-end; }
+.obs-phase .pb { width: 24px; height: 6px; background: var(--forest-tint); }
+.obs-phase .pb.on { background: var(--forest); }
+
+.metric-categories {
+  margin: 56px 0 0;
+  display: grid;
+  gap: 64px;
+}
+.mcat-head {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 56px;
+  align-items: end;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 28px;
+}
+@media (max-width: 760px) { .mcat-head { grid-template-columns: 1fr; gap: 12px; } }
+.mcat-head .id {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--forest-deep);
+}
+.mcat-head h3 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-top: 8px;
+}
+.mcat-head .descr {
+  font-size: 15.5px;
+  color: var(--ink-mid);
+  max-width: 40em;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+@media (max-width: 980px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .metric-grid { grid-template-columns: 1fr; } }
+.metric {
+  padding: 24px 24px 22px;
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 168px;
+}
+.metric:hover { background: var(--paper-warm); }
+.metric .m-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.metric .m-name {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.metric .m-pill {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.metric .m-pill.planned { background: var(--paper); color: var(--ink-light); }
+.metric .m-pill.stub { background: var(--paper-warm); border-color: var(--amber); color: var(--amber); }
+.metric .m-pill.live { background: var(--forest); border-color: var(--forest); color: var(--paper); }
+.metric .m-pill.todo { background: var(--vermilion); border-color: var(--vermilion); color: var(--paper); }
+.metric .m-source {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+.metric .m-source span { color: var(--ink); }
+.metric .m-spark { margin-top: auto; height: 36px; display: block; }
+.metric .m-spark line { stroke: var(--rule-strong); stroke-dasharray: 3 4; stroke-width: 1; }
+.metric .m-spark text {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  fill: var(--ink-light);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.metric .m-linked {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vermilion-deep);
+  border-top: 1px dashed var(--rule);
+  padding-top: 10px;
+}
+.metric .m-linked span { color: var(--ink-mid); }
+
+/* TODO callout */
+.audit-callout {
+  margin: 64px 0 0;
+  padding: 36px 40px;
+  border: 1px dashed var(--vermilion);
+  background: var(--vermilion-pale);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 720px) { .audit-callout { grid-template-columns: 1fr; } }
+.audit-callout h4 {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 26px;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.audit-callout p { font-size: 14.5px; color: var(--ink-mid); max-width: 48em; }
+.audit-callout .stamp {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--vermilion-deep);
+  text-align: right;
+  border-left: 1px solid var(--vermilion-tint);
+  padding-left: 28px;
+  line-height: 1.4;
+}
+@media (max-width: 720px) {
+  .audit-callout .stamp { border-left: 0; padding-left: 0; padding-top: 16px; border-top: 1px solid var(--vermilion-tint); text-align: left; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Footer
+   ───────────────────────────────────────────────────────────── */
+footer {
+  margin-top: 96px;
+  border-top: 1px solid var(--rule);
+  padding: 56px 0 72px;
+  background: var(--paper-warm);
+}
+.foot-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+@media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+.foot-grid h5 {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 10px;
+}
+.foot-grid p, .foot-grid li {
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.55;
+  list-style: none;
+}
+.foot-grid .colophon p { font-family: var(--display); font-style: italic; font-size: 20px; color: var(--ink); line-height: 1.4; max-width: 22em; }
+.foot-bottom {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+@media (max-width: 640px) { .foot-bottom { flex-direction: column; gap: 8px; } }
+
+/* ─────────────────────────────────────────────────────────────
+   Page-load reveal
+   ───────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: rise 700ms cubic-bezier(.22,.61,.36,1) forwards;
+}
+.r1 { animation-delay: 60ms; }
+.r2 { animation-delay: 160ms; }
+.r3 { animation-delay: 260ms; }
+.r4 { animation-delay: 360ms; }
+.r5 { animation-delay: 460ms; }
+@keyframes rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ─────────────── Masthead ─────────────── -->
+<header class="masthead">
+  <div class="shell masthead-inner">
+    <div class="mark"><span class="sym">§</span>ToTheNew <em>·</em> AI Engineering Engagement</div>
+    <div class="meta">
+      <span>Doc <b>TTN-001</b></span>
+      <span>Rev <b>0.1</b></span>
+      <span id="m-date"><b></b></span>
+    </div>
+  </div>
+</header>
+
+<!-- ─────────────── Hero ─────────────── -->
+<section class="hero">
+  <div class="shell">
+    <div class="hero-grid">
+      <div>
+        <div class="kicker reveal r1">
+          <span class="pulse"></span>
+          <span>Engagement proposal · operating plan</span>
+          <span class="sep">/</span>
+          <span>Prepared for Ashish &amp; the TTN engineering org</span>
+        </div>
+        <h1 class="reveal r2">
+          Teach the org to ship with AI<span class="ampersand">&amp;</span><em>prove</em> it moved the needle.
+        </h1>
+        <p class="lede reveal r3">
+          A two-dimensional engagement. The first dimension upskills every TTN engineer on AI-powered
+          development through a tight, hands-on curriculum. The second dimension is the
+          observability engine that makes the productivity gain legible to leadership, in numbers,
+          every day after.
+        </p>
+        <div class="hero-meta reveal r4">
+          <div class="stat"><div class="label">Format</div><div class="value">Offline</div></div>
+          <div class="stat"><div class="label">Length</div><div class="value">10 <span class="unit">days</span></div></div>
+          <div class="stat"><div class="label">Per day</div><div class="value">2.5 <span class="unit">hrs</span></div></div>
+          <div class="stat"><div class="label">Total</div><div class="value">25 <span class="unit">hrs</span></div></div>
+        </div>
+      </div>
+
+      <div class="dim-stack reveal r3">
+        <div class="dim dim-1" data-id="Dimension 1 · Learning">
+          <h3>AI Learning Curriculum</h3>
+          <p>Teach every engineer at TTN to be productive with Claude Code and Cursor — not at the toy level, at the daily-work level. Pedagogy is zero-to-hero, reproducible, and grounded in real TTN problems.</p>
+          <div class="dim-footer">
+            <span class="consumer">Consumer · Engineers</span>
+            <span class="status">Active design</span>
+          </div>
+        </div>
+        <div class="dim dim-2" data-id="Dimension 2 · Observability">
+          <h3>Evaluation, Monitoring &amp;<br>Observability Engine</h3>
+          <p>A 24×7 dashboard that watches the metrics that matter — activity, throughput, adoption, and quality — so leadership can see, week over week, that the training paid back.</p>
+          <div class="dim-footer">
+            <span class="consumer">Consumer · Managers</span>
+            <span class="status">Awaiting baseline</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── Tab nav ─────────────── -->
+<nav class="nav-tabs">
+  <div class="shell">
+    <div class="tabs">
+      <button class="tab active" data-view="curriculum"><span class="num">01</span>Curriculum</button>
+      <button class="tab" data-view="observability"><span class="num">02</span>Observability</button>
+    </div>
+    <div class="meta-right">
+      <span>Cohort baseline · <b>Casual Copilot users</b></span>
+      <span>Tools · <b>Claude Code + Cursor</b></span>
+    </div>
+  </div>
+</nav>
+
+<main class="shell">
+
+  <!-- ─────────────── Curriculum view ─────────────── -->
+  <section class="view active" id="view-curriculum" data-view="curriculum">
+
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Dimension 1 · The plan</div>
+        <h2>Ten days to <em>working</em> AI&#8209;native engineers.</h2>
+      </div>
+      <p class="descr">
+        One shared spine, hands-on heavy, role-forked only where it must be (Day 8). Each day
+        moves the cohort one capability forward — from "I autocomplete with Copilot sometimes" to
+        "I ship features end-to-end with an agent I supervise." The arc compounds; later days
+        depend on earlier ones landing.
+      </p>
+    </div>
+
+    <div class="meta-strip" data-render="meta-strip"></div>
+
+    <div class="days" data-render="curriculum"></div>
+
+    <!-- Open questions -->
+    <section class="questions">
+      <h3>Open questions before we lock the curriculum.</h3>
+      <p class="descr">Decisions that, once answered, move this from a proposal into an executable plan. None block design work; all block delivery.</p>
+      <ol class="q-list" data-render="questions"></ol>
+    </section>
+
+  </section>
+
+  <!-- ─────────────── Observability view ─────────────── -->
+  <section class="view" id="view-observability" data-view="observability">
+
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Dimension 2 · The proof</div>
+        <h2>A dashboard that <em>defends</em> the training.</h2>
+      </div>
+      <p class="descr">
+        Activity, throughput, adoption, and quality — measured continuously, segmented by engineer
+        and team, so leadership can see the curve. Below is the scaffold. Live metrics come online
+        once instrumentation is wired into TTN's repos, IDEs, and ticketing.
+      </p>
+    </div>
+
+    <div class="obs-status">
+      <div>
+        <h4>Status · Pre-engagement baseline phase</h4>
+        <p>The metric scaffold is designed but no measurements have flowed yet. We need (a) a two-week pre-training baseline against the same metrics so the after-picture has something to compare against, and (b) license access + telemetry wiring before Day 1.</p>
+      </div>
+      <div class="obs-phase">
+        <div>Engagement phase</div>
+        <div class="phase-bar"><div class="pb on"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div></div>
+        <div>Baseline · Train · Adopt · Sustain</div>
+      </div>
+    </div>
+
+    <div class="metric-categories" data-render="metrics"></div>
+
+    <div class="audit-callout">
+      <div>
+        <h4>Audit Google's internal AI-adoption tracking method.</h4>
+        <p>A research task before we lock the metric set. Google has published partial methodology (DORA + DX-style internal surveys, agent-touch ratios on CLs). We adopt what's load-bearing and skip the rest. Output: a one-page comparison + the final metric list.</p>
+      </div>
+      <div class="stamp">
+        Owner · Puru<br>
+        Deliverable · Week 0
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ─────────────── Footer ─────────────── -->
+<footer>
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="colophon">
+        <h5>Colophon</h5>
+        <p>"The training has to teach the right skills, and the dashboard has to measure the right things — or neither dimension does its job."</p>
+      </div>
+      <div>
+        <h5>Document</h5>
+        <ul>
+          <li>TTN-001 · Rev 0.1</li>
+          <li>Internal · Proposal stage</li>
+          <li>Set in Instrument Serif &amp; IBM Plex</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Architecture</h5>
+        <ul>
+          <li>Static HTML · One file</li>
+          <li>Data-driven render</li>
+          <li>Webapp-portable</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Next milestones</h5>
+        <ul>
+          <li>Week 0 · Baseline</li>
+          <li>Week 1–2 · Delivery</li>
+          <li>Week 3+ · Sustain &amp; measure</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Engagement · ToTheNew × Puru</span>
+      <span>Prepared <span id="f-date"></span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ─────────────────────────────────────────────────────────────
+     Data + render. Lift this block into /data and /components
+     when porting to React/Next.
+     ───────────────────────────────────────────────────────────── -->
+<script>
+/* ─── Engagement metadata ─── */
+const ENGAGEMENT = {
+  client: 'ToTheNew',
+  sponsor: 'Ashish',
+  docId: 'TTN-001',
+  rev: '0.1',
+  format: 'Offline · in-person',
+  days: 10,
+  hoursPerDay: 2.5,
+  totalHours: 25,
+  primaryTools: ['Claude Code', 'Cursor'],
+  cohortBaseline: 'Casual Copilot / ChatGPT users',
+};
+
+/* ─── Curriculum data ─── */
+const CURRICULUM = [
+  {
+    id: 1, day: '01',
+    theme: 'Mental models & tool setup',
+    summary: 'Working installs, first prompts that work, and the shift from chat-paste to in-IDE work.',
+    tools: ['Both'],
+    framing: 'How LLMs actually work — tokens, context, sampling, hallucination. Why "I tried ChatGPT once and it was bad" is a tool-use problem, not a model problem. The mental shift from "Google replacement" to "junior pair-programmer that needs supervision."',
+    lab: 'Install Cursor and Claude Code, both authenticated and working. Run the same "hello world" task three ways: chat-paste (their current habit), Cursor inline, Claude Code session. Compare what each gave you and what it cost in time.',
+    debrief: 'What surprised you? Anatomy of a prompt that actually works — specificity gradient, role-context-constraints-format. Three habits to break: vague asks, single-shot expectations, accepting first output.',
+    whatLands: 'Both tools running. First glimpse that this is a real workflow shift, not a chat trick.',
+    linkedMetrics: ['Adoption · Cursor DAU', 'Adoption · Claude Code DAU'],
+    callout: null,
+  },
+  {
+    id: 2, day: '02',
+    theme: 'Context engineering',
+    summary: 'The single biggest unlock from "casual user" to productive. Ground the model in the right files, conventions, and goals.',
+    tools: ['Both'],
+    framing: 'Why context dominates prompt. The casual user pastes a snippet and asks; the productive user pulls the right files, codebase index, conventions, and goals into view first. Token economy basics.',
+    lab: 'Same realistic feature request, two attempts. Attempt 1: naive prompt. Attempt 2: file-tagged in Cursor, with .cursorrules and a fresh CLAUDE.md in place. Compare outputs side by side. Then author a CLAUDE.md for a sample repo from scratch.',
+    debrief: 'Three patterns to keep: the "tour guide" prompt, the "constraint anchor" prompt, the "exemplar" prompt. When to use which.',
+    whatLands: 'A working mental model of "context first, prompt second" — and the muscle memory to do it.',
+    linkedMetrics: ['Adoption · CLAUDE.md coverage', 'Quality · Context-grounded prompt ratio'],
+    callout: { text: 'Single biggest unlock', tone: 'red' },
+  },
+  {
+    id: 3, day: '03',
+    theme: 'Inline + chat workflows in Cursor',
+    summary: 'Cursor’s four surfaces — Tab, ⌘K, chat, composer — and when each is the right move.',
+    tools: ['Cursor'],
+    framing: 'The Cursor surface area: Tab autocomplete, ⌘K inline edit, chat panel, composer/agent. Each has a sweet spot. Treat them as four different tools, not one tool with four buttons.',
+    lab: 'Three sub-tasks in one Cursor session: refactor an ugly function with ⌘K; build a small new feature with chat; fix a bug with composer driving multi-file changes. Time each.',
+    debrief: 'When Cursor goes off-rails — symptoms, recovery moves (smaller scope, more context, restart chat). When to drop down to Claude Code instead.',
+    whatLands: 'Real Cursor fluency. They stop typing every line by hand for things Cursor does better.',
+    linkedMetrics: ['Throughput · Tasks/Cursor session', 'Activity · Inline-edit acceptance rate'],
+    callout: null,
+  },
+  {
+    id: 4, day: '04',
+    theme: 'Agentic workflow with Claude Code',
+    summary: 'The mental flip from "AI completes my code" to "AI executes a task, I supervise."',
+    tools: ['Claude Code'],
+    framing: 'You stop writing code with suggestions and start delegating to an agent that you supervise. What changes: planning matters more, verification matters more, scope discipline matters more.',
+    lab: 'Give Claude Code a multi-file task. Watch it. Interrupt when it goes wrong. Re-plan. Ship. Then do it again with smaller, tighter scoping. Notice the cost of bad initial framing.',
+    debrief: 'Supervised vs unsupervised work. The "would you let a junior engineer commit this without review?" test. Permission modes and what to trust.',
+    whatLands: 'The first real agentic delivery. The mental model is the prize, not the artifact.',
+    linkedMetrics: ['Adoption · Agentic sessions', 'Quality · Supervised:autonomous ratio'],
+    callout: null,
+  },
+  {
+    id: 5, day: '05',
+    theme: 'Planning before coding',
+    summary: 'Why ungrounded agent loops thrash, and what a plan that the agent can execute looks like.',
+    tools: ['Claude Code'],
+    framing: 'The "lost in the middle" failure mode. A good plan contains: scope, files to touch, constraints, verification steps. Plan is cheap; mid-execution recovery is expensive.',
+    lab: 'Take a real 1–2 day feature. Write a plan with AI. Critique the plan as a pair. Then execute it. Compare cycle time against the same person doing it vibes-only on an analogous task.',
+    debrief: 'Plan modes, plan handoff between sessions, plan-as-documentation. The plan becomes the PR description.',
+    whatLands: 'A repeatable pre-flight discipline that pays for itself within the same session.',
+    linkedMetrics: ['Throughput · Plan-first ratio', 'Quality · Agent session success rate'],
+    callout: null,
+  },
+  {
+    id: 6, day: '06',
+    theme: 'Brownfield: read, understand, modify',
+    summary: 'The real-world use case — code you didn’t write, deadlines you can’t move, AI as your archaeologist.',
+    tools: ['Both'],
+    framing: 'Most TTN work is not greenfield. You’re modifying systems you didn’t write, often under client deadlines. AI as code archaeology is where the daily productivity gains actually live.',
+    lab: 'Drop into a repo nobody in the room has seen. Answer five questions about it. Make a targeted change. Catch at least two hallucinated function calls during the session and trace why they happened.',
+    debrief: 'How to verify before committing — grep, run, test. The trust-but-verify discipline for brownfield. When the model lies confidently and how to catch it.',
+    whatLands: 'Comfort dropping into unfamiliar code with AI as a guide that you don’t blindly trust.',
+    linkedMetrics: ['Throughput · Brownfield modify velocity', 'Quality · Hallucination catch rate'],
+    callout: null,
+  },
+  {
+    id: 7, day: '07',
+    theme: 'Testing, debugging, code review',
+    summary: 'AI on the three quality surfaces — writing tests, finding bugs, reviewing PRs.',
+    tools: ['Both'],
+    framing: 'Three forks of AI-assisted quality work, each with its own pitfalls. Tests that test the implementation instead of the requirements. Debugging by hypothesis rather than guessing. Reviewing a PR full of AI code with confidence.',
+    lab: 'Three 25-minute rotations. (a) Write tests for an undocumented function — catch when AI just mirrors the implementation. (b) Debug a real bug, hypothesis-driven, AI-assisted. (c) Review a PR full of AI-generated code; flag what’s off.',
+    debrief: 'The smells of AI-generated code: over-defensive error handling, unnecessary comments, plausible-but-wrong API usage, drift from project conventions. How to spot them in five seconds.',
+    whatLands: 'AI used at quality surfaces without quality going down.',
+    linkedMetrics: ['Quality · PR rework rate', 'Quality · Post-merge bug rate'],
+    callout: null,
+  },
+  {
+    id: 8, day: '08',
+    theme: 'Stack-forked labs',
+    summary: 'Universal skills, role-specific patterns. The only day where tracks split.',
+    tools: ['Both'],
+    framing: 'Why this day is different — the universal skills now meet the stack-specific patterns. Quick brief on each track’s lab so cross-track observation is possible.',
+    lab: 'Parallel role-specific work (2h). Frontend: build a component from a spec, with stories and an a11y pass. Backend: add an endpoint to an existing service, with schema migration and integration test. DevOps: generate a Terraform module plus a CI/CD pipeline YAML for it. Data: author a SQL query, then translate into a pipeline DAG or notebook-to-script.',
+    debrief: 'Cross-track share-back. What patterns generalized. What was track-specific. What surprised each track about what another track did.',
+    whatLands: 'Confidence that "AI for my stack" is real, not a frontend-only or hype-only phenomenon.',
+    linkedMetrics: ['Throughput · Stack-feature shipped/day', 'Adoption · Cross-track tool usage'],
+    callout: null,
+  },
+  {
+    id: 9, day: '09',
+    theme: 'Customization & guardrails',
+    summary: 'What makes productivity durable after the workshop ends. The artifacts that persist.',
+    tools: ['Both'],
+    framing: 'Per-repo CLAUDE.md and .cursorrules. Custom commands. MCP servers. Session hygiene and context economy. The post-workshop infrastructure that decides whether the gains decay or compound.',
+    lab: 'Pair on a real TTN repo. Author its CLAUDE.md from scratch. Add .cursorrules. Define one custom command for the team’s daily flow. Wire one MCP server (likely their issue tracker). Commit it. Hand it to the next pair to use.',
+    debrief: 'Team practice. How do these artifacts stay current as the codebase evolves? Whose job is it? What does code review for AI-touched code look like in TTN’s workflow?',
+    whatLands: 'A real, committed CLAUDE.md / .cursorrules / custom command in at least one TTN repo per attendee.',
+    linkedMetrics: ['Adoption · CLAUDE.md coverage', 'Adoption · MCP server usage'],
+    callout: { text: 'Dim-1 meets Dim-2', tone: 'green' },
+  },
+  {
+    id: 10, day: '10',
+    theme: 'Capstone & integration',
+    summary: 'A real TTN ticket, end-to-end, individually. Then a debrief on what changed.',
+    tools: ['Both'],
+    framing: 'Bringing it back. Team norms for AI-generated code. PR attribution. What NOT to use AI for. How to evaluate over time so the dashboard isn’t the only signal.',
+    lab: 'Solve a real TTN ticket end-to-end, individually. Submit a PR. The PR is the deliverable, not a slide.',
+    debrief: 'Time spent vs estimated baseline. What worked. What didn’t. What you’d do differently next sprint. Commitment to one habit per attendee.',
+    whatLands: 'A shipped PR per attendee + a personal habit each one signs up to keep.',
+    linkedMetrics: ['Throughput · Ticket cycle time', 'Throughput · SWE hours saved'],
+    callout: null,
+  },
+];
+
+/* ─── Open questions ─── */
+const QUESTIONS = [
+  {
+    text: 'Source real TTN problems for Days 6, 8, and 10.',
+    note: 'Toy examples lose the room. We need one unfamiliar-but-readable repo for Day 6, four small role-specific tasks for Day 8, and one real ticket per attendee for Day 10.',
+    owner: 'TTN · Ashish',
+  },
+  {
+    text: 'Confirm the FE / BE / DevOps / Data fork for Day 8.',
+    note: 'Are mobile, QA, or SRE big enough buckets at TTN to warrant their own lab tracks? If yes, Day 8 expands.',
+    owner: 'TTN · Eng leads',
+  },
+  {
+    text: 'Run the pre-engagement survey.',
+    note: 'Five questions on stack, seniority, current AI tool exposure, repo access, motivation. Confirms the "casual Copilot user" baseline and surfaces outliers we need to plan for.',
+    owner: 'Puru',
+  },
+  {
+    text: 'Lock license access for Cursor + Claude Code.',
+    note: 'During AND after the engagement. If attendees fall back to free tiers post-training, Dimension 2 metrics will flatten and the engagement will look like it failed.',
+    owner: 'TTN · Procurement',
+  },
+  {
+    text: 'Decide the baseline measurement window.',
+    note: 'Two weeks of pre-training instrumentation against the Dim-2 metric scaffold so the after-picture has something to compare against.',
+    owner: 'Joint',
+  },
+];
+
+/* ─── Observability metrics scaffold ─── */
+const METRIC_CATEGORIES = [
+  {
+    id: 'activity',
+    name: 'Activity',
+    descr: 'The raw volume signals — what work is happening. Easy to game in isolation; valuable as denominators for the quality and throughput categories.',
+    metrics: [
+      { name: 'Lines of code', unit: 'LOC / dev / day', source: 'Git', status: 'planned', linkedDays: [10] },
+      { name: 'PRs raised', unit: 'PRs / dev / week', source: 'Git host', status: 'planned', linkedDays: [10] },
+      { name: 'CLs reviewed', unit: 'reviews / dev / week', source: 'Git host', status: 'planned', linkedDays: [7] },
+      { name: 'Design docs reviewed', unit: 'docs / dev / month', source: 'Docs platform', status: 'stub', linkedDays: [] },
+      { name: 'JIRA tickets closed', unit: 'tickets / dev / sprint', source: 'JIRA', status: 'planned', linkedDays: [10] },
+      { name: 'Time spent coding', unit: 'hrs · agent vs user', source: 'IDE telemetry', status: 'stub', linkedDays: [4, 5] },
+    ],
+  },
+  {
+    id: 'throughput',
+    name: 'Throughput · Productivity',
+    descr: 'The "did we get faster" surface. Pair every velocity number with a quality number from below, or it’s Goodhart bait.',
+    metrics: [
+      { name: 'SWE hours saved', unit: 'hrs / dev / week', source: 'Survey + telemetry', status: 'planned', linkedDays: [10] },
+      { name: 'Ticket cycle time', unit: 'open → merge, p50', source: 'JIRA + Git', status: 'planned', linkedDays: [10] },
+      { name: 'Features shipped', unit: 'features / sprint', source: 'JIRA', status: 'planned', linkedDays: [8, 10] },
+      { name: 'Brownfield velocity', unit: 'modify-tasks / week', source: 'Git host', status: 'stub', linkedDays: [6] },
+      { name: 'Plan-first ratio', unit: '% sessions with plan', source: 'Claude Code logs', status: 'stub', linkedDays: [5] },
+      { name: 'Tasks per Cursor session', unit: 'tasks / session', source: 'Cursor telemetry', status: 'stub', linkedDays: [3] },
+    ],
+  },
+  {
+    id: 'adoption',
+    name: 'Adoption',
+    descr: 'Are people actually using the tools they were trained on, with the configuration that makes them productive? Decay shows up here first.',
+    metrics: [
+      { name: 'Cursor DAU', unit: 'daily active users', source: 'Cursor admin', status: 'planned', linkedDays: [1, 3] },
+      { name: 'Claude Code DAU', unit: 'daily active users', source: 'Claude admin', status: 'planned', linkedDays: [1, 4] },
+      { name: 'Token consumption / user', unit: 'tokens / dev / week', source: 'Anthropic billing', status: 'planned', linkedDays: [4, 5] },
+      { name: 'CLAUDE.md coverage', unit: '% repos with CLAUDE.md', source: 'Git host scan', status: 'planned', linkedDays: [2, 9] },
+      { name: 'Custom command usage', unit: 'invocations / dev / week', source: 'Claude Code logs', status: 'stub', linkedDays: [9] },
+      { name: 'MCP server usage', unit: 'calls / dev / week', source: 'MCP logs', status: 'stub', linkedDays: [9] },
+    ],
+  },
+  {
+    id: 'quality',
+    name: 'Quality',
+    descr: 'The counterweight to throughput. If the dashboard celebrates speed and quality silently drops, the engagement has done damage, not value.',
+    metrics: [
+      { name: 'PR rework rate', unit: '% PRs >2 review cycles', source: 'Git host', status: 'planned', linkedDays: [7] },
+      { name: 'Post-merge bug rate', unit: 'bugs / 100 PRs', source: 'JIRA + Git', status: 'planned', linkedDays: [7] },
+      { name: 'AI-touch ratio on bugs', unit: '% AI-touched / bugs', source: 'Git annotations', status: 'todo', linkedDays: [7] },
+      { name: 'Test coverage on AI code', unit: '% covered', source: 'CI coverage', status: 'stub', linkedDays: [7] },
+      { name: 'Hallucination incident reports', unit: 'self-reported / week', source: 'Slack form', status: 'stub', linkedDays: [6] },
+      { name: 'Context-grounded prompt ratio', unit: '% prompts w/ files attached', source: 'IDE telemetry', status: 'stub', linkedDays: [2] },
+    ],
+  },
+];
+
+/* ─── Render helpers ─── */
+function el(tag, attrs = {}, children = []) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') e.className = v;
+    else if (k === 'html') e.innerHTML = v;
+    else e.setAttribute(k, v);
+  }
+  for (const c of [].concat(children)) {
+    if (typeof c === 'string') e.appendChild(document.createTextNode(c));
+    else if (c) e.appendChild(c);
+  }
+  return e;
+}
+
+function toolTag(t) {
+  if (t === 'Claude Code') return '<span class="tag tool-cc">Claude Code</span>';
+  if (t === 'Cursor') return '<span class="tag tool-cursor">Cursor</span>';
+  if (t === 'Both') return '<span class="tag tool-cc">Claude Code</span><span class="tag tool-cursor">Cursor</span>';
+  return `<span class="tag">${t}</span>`;
+}
+
+/* Meta strip across the top of curriculum */
+function renderMetaStrip() {
+  const host = document.querySelector('[data-render="meta-strip"]');
+  const items = [
+    { k: 'Days', v: ENGAGEMENT.days },
+    { k: 'Per day', v: `${ENGAGEMENT.hoursPerDay} hrs` },
+    { k: 'Total', v: `${ENGAGEMENT.totalHours} hrs` },
+    { k: 'Tools', v: ENGAGEMENT.primaryTools.join(' + ') },
+    { k: 'Baseline', v: ENGAGEMENT.cohortBaseline },
+  ];
+  host.innerHTML = items.map(i => `
+    <div class="cell">
+      <div class="k">${i.k}</div>
+      <div class="v">${i.v}</div>
+    </div>
+  `).join('');
+}
+
+/* Curriculum day cards */
+function renderCurriculum() {
+  const host = document.querySelector('[data-render="curriculum"]');
+  host.innerHTML = CURRICULUM.map(d => {
+    const calloutTag = d.callout
+      ? `<span class="tag callout ${d.callout.tone === 'green' ? 'green' : ''}">${d.callout.text}</span>`
+      : '';
+    const tools = (d.tools[0] === 'Both' ? ['Claude Code', 'Cursor'] : d.tools)
+      .map(toolTag).join('');
+    const linkedChips = d.linkedMetrics.map(m => `<span class="lm-chip">${m}</span>`).join('');
+    return `
+      <article class="day-card" data-day="${d.id}">
+        <header class="day-header">
+          <div class="day-id">
+            <span class="num">${d.day}</span>
+            <div class="tlbar" title="30 min framing · 90 min lab · 30 min debrief">
+              <div class="f"></div><div class="l"></div><div class="d"></div>
+            </div>
+            <div class="tlbar-legend"><span>30</span><span>90</span><span>30</span></div>
+          </div>
+          <div class="day-body">
+            <h3 class="day-theme">${d.theme}</h3>
+            <p class="day-summary">${d.summary}</p>
+            <div class="day-tags">${tools}${calloutTag}</div>
+          </div>
+          <div class="day-right">
+            <span>2.5 hrs</span>
+            <span class="chev">›</span>
+          </div>
+        </header>
+        <div class="day-detail">
+          <aside class="detail-side">
+            <span class="label">By end of day</span>
+            <div class="what">${d.whatLands}</div>
+          </aside>
+          <div class="detail-body">
+            <div class="block">
+              <div class="b-time"><strong>30 min</strong>Framing</div>
+              <div class="b-body"><div class="b-label">Frame the why.</div><p>${d.framing}</p></div>
+            </div>
+            <div class="block">
+              <div class="b-time"><strong>90 min</strong>Lab</div>
+              <div class="b-body"><div class="b-label">Do the work.</div><p>${d.lab}</p></div>
+            </div>
+            <div class="block">
+              <div class="b-time"><strong>30 min</strong>Debrief</div>
+              <div class="b-body"><div class="b-label">Name the pattern.</div><p>${d.debrief}</p></div>
+            </div>
+            <div class="linked-metrics">
+              <div class="lm-label">Linked Dimension 2 metrics</div>
+              <div class="lm-chips">${linkedChips}</div>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  // expand/collapse
+  host.addEventListener('click', e => {
+    const card = e.target.closest('.day-card');
+    if (!card) return;
+    card.classList.toggle('open');
+  });
+}
+
+/* Open questions */
+function renderQuestions() {
+  const host = document.querySelector('[data-render="questions"]');
+  host.innerHTML = QUESTIONS.map((q, i) => `
+    <li class="q-item">
+      <span class="q-num">${String(i + 1).padStart(2, '0')}</span>
+      <div class="q-text">${q.text}<small>${q.note}</small></div>
+      <span class="q-owner">${q.owner}</span>
+    </li>
+  `).join('');
+}
+
+/* Observability metric grid */
+function renderMetrics() {
+  const host = document.querySelector('[data-render="metrics"]');
+  host.innerHTML = METRIC_CATEGORIES.map((cat, i) => {
+    const tiles = cat.metrics.map(m => {
+      const linked = m.linkedDays.length
+        ? `<div class="m-linked">From <span>Day ${m.linkedDays.map(d => String(d).padStart(2, '0')).join(' · Day ')}</span></div>`
+        : `<div class="m-linked" style="color:var(--ink-light)">No direct curriculum link</div>`;
+      return `
+        <div class="metric">
+          <div class="m-top">
+            <div class="m-name">${m.name}</div>
+            <span class="m-pill ${m.status}">${m.status}</span>
+          </div>
+          <div class="m-source"><span>${m.unit}</span> · ${m.source}</div>
+          <svg class="m-spark" viewBox="0 0 200 36" preserveAspectRatio="none">
+            <line x1="0" y1="24" x2="200" y2="24"></line>
+            <text x="100" y="18" text-anchor="middle">awaiting baseline</text>
+          </svg>
+          ${linked}
+        </div>
+      `;
+    }).join('');
+    return `
+      <section class="metric-category">
+        <div class="mcat-head">
+          <div>
+            <div class="id">Category 0${i + 1}</div>
+            <h3>${cat.name}</h3>
+          </div>
+          <p class="descr">${cat.descr}</p>
+        </div>
+        <div class="metric-grid">${tiles}</div>
+      </section>
+    `;
+  }).join('');
+}
+
+/* Tab switching */
+function initTabs() {
+  const tabs = document.querySelectorAll('.tab');
+  const views = document.querySelectorAll('.view');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    const v = t.dataset.view;
+    tabs.forEach(x => x.classList.toggle('active', x === t));
+    views.forEach(x => x.classList.toggle('active', x.dataset.view === v));
+    window.scrollTo({ top: document.querySelector('.nav-tabs').offsetTop - 60, behavior: 'smooth' });
+  }));
+}
+
+/* Date stamp */
+function stampDate() {
+  const d = new Date();
+  const fmt = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+  const m = document.querySelector('#m-date b');
+  const f = document.getElementById('f-date');
+  if (m) m.textContent = fmt;
+  if (f) f.textContent = fmt;
+}
+
+/* Boot */
+document.addEventListener('DOMContentLoaded', () => {
+  stampDate();
+  renderMetaStrip();
+  renderCurriculum();
+  renderQuestions();
+  renderMetrics();
+  initTabs();
+});
+</script>
+
+</body>
+</html>
